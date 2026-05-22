@@ -1,0 +1,18 @@
+{"question": "Was anyone riding a bicycle in the video?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [170, 175, 200, 205], "category": "descriptive"}
+{"question": "When did the bicycle anomaly happen?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [170, 175, 200, 205], "category": "temporal"}
+{"question": "What happened around 7 seconds into the video?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [170, 175], "category": "temporal"}
+{"question": "What happened around 8 seconds into the video?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [200, 205], "category": "temporal"}
+{"question": "Was there a bicycle visible near the end of the video?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [170, 175, 200, 205, 235], "category": "temporal"}
+{"question": "Did the video contain an abnormal activity?", "expected_classification": "anomalous", "video_id": "shanghai_01_0014", "evidence_frames": [170, 175, 200, 205], "category": "descriptive"}
+{"question": "Was the scene normal before the bicycle appeared?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [0, 20, 50, 80, 105, 140], "category": "temporal"}
+{"question": "What was happening in the first 3 seconds of the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70], "category": "temporal"}
+{"question": "Were two people sitting near the pathway at the start of the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [0, 5, 10, 15, 20], "category": "descriptive"}
+{"question": "Were people sitting on a bench or ledge for most of the early video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [0, 5, 10, 15, 20, 50, 80, 100], "category": "descriptive"}
+{"question": "Did the number of visible people increase later in the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [105, 110, 135, 140, 170, 200], "category": "comparison"}
+{"question": "Was there a trash bin visible in the scene?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [20, 35, 85, 140, 205], "category": "descriptive"}
+{"question": "Did a backpack appear in the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [175, 205], "category": "descriptive"}
+{"question": "Was anyone running in the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [], "category": "negative"}
+{"question": "Was anyone fighting or pushing another person?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [], "category": "negative"}
+{"question": "Was anyone lying on the ground?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [], "category": "negative"}
+{"question": "Were any vehicles visible in the early part of the video?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [], "category": "negative"}
+{"question": "Did the same general scene continue across the video, with people sitting near the pathway?", "expected_classification": "normal", "video_id": "shanghai_01_0014", "evidence_frames": [0, 25, 50, 75, 100, 135, 140, 240], "category": "temporal"}

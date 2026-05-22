@@ -1,0 +1,62 @@
+[project]
+name = "video-scene-agent"
+version = "0.0.1"
+requires-python = ">=3.11"
+dependencies = [
+    # Core ML
+    "torch>=2.1",
+    "transformers>=4.40",
+    "peft>=0.10",                # LoRA
+    "accelerate",
+    "Pillow",
+    "opencv-python",
+    "numpy",
+    "pandas",
+    "openai",
+
+    # Embeddings + vector store
+    "chromadb>=0.5",
+    "sentence-transformers",
+
+    # LLM application stack
+    "langchain>=0.2",
+    "langchain-community",
+    "langchain-openai",          # for OpenAI/compatible LLM
+    "langgraph>=0.1",
+    "pydantic>=2.0",
+
+    # Captioning (VLM)
+    "einops",                    # CogVLM dep
+    "sentencepiece",
+    "protobuf",
+    "qwen-vl-utils",             # for the Qwen2.5-VL secondary comparison
+
+    # API + UI
+    "fastapi",
+    "uvicorn[standard]",
+    "gradio>=4.0",
+
+    # Tracing + eval
+    "langsmith",                 # primary tracing (LangChain-native)
+    "langfuse",                  # alternative open-source observability — production standard
+    "ragas",                     # RAG-specific eval, production monitoring style
+
+    # Utilities
+    "python-dotenv",
+    "tqdm",
+    "tenacity",
+    "pyyaml",
+    "mlflow",
+    "protobuf==3.20.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "deepeval",                  # pytest-style LLM eval for CI
+    "ruff",
+    "ipykernel",
+    "jupyter",
+    "matplotlib",
+]

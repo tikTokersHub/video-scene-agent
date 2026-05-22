@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# Data
+data/raw/
+data/frames/
+data/captions/
+data/labels/
+
+# Keep eval set
+!data/eval/
+!data/eval/qa_test_set.jsonl
+
+# Vector DB
+chroma_db/
+notebooks/chroma_db/
+
+# Models/checkpoints
+models/
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Reports
+reports/eval_predictions.json
+
+# OS/editor
+.DS_Store
+.vscode/

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Video Scene Agent &mdash; Surveillance video understanding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css?v=selected-evidence-card-2" />
+</head>
+<body>
+<div class="atmosphere">
+  <div class="grid-bg"></div>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+</div>
+
+<div class="wrap">
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="brand-mark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#06231f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>
+            <circle cx="12" cy="12" r="4.2"/>
+            <circle cx="12" cy="12" r="1" fill="#06231f" stroke="none"/>
+          </svg>
+        </div>
+        <div class="brand-name">Video Scene Agent<span class="dot">.</span></div>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#demo">Demo</a>
+        <a href="/docs">API Docs</a>
+      </div>
+      <a href="#demo" class="btn btn-primary">
+        Try Demo
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div class="hero-stagger">
+        <div class="status-pill"><span class="rec-dot"></span> Multi-modal &middot; RAG &middot; Agentic</div>
+        <h1 class="hero-title">Understand surveillance video with <span class="accent">evidence-backed AI.</span></h1>
+        <p class="hero-sub">Upload footage. The agent extracts frames, induces normal and abnormal rules, retrieves the exact moments that matter, and answers your questions &mdash; every claim tied to a timestamped frame.</p>
+        <div class="hero-ctas">
+          <a href="#demo" class="btn btn-primary" data-focus-upload>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>
+            Upload a Video
+          </a>
+          <a href="#demo" class="btn btn-ghost">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8z"/></svg>
+            See Demo
+          </a>
+        </div>
+        <div class="capabilities">
+          <div class="cap"><span class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg></span> Rule Generation</div>
+          <div class="cap"><span class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-4.3-4.3M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg></span> Frame Retrieval</div>
+          <div class="cap"><span class="cap-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span> Explainable Answers</div>
+        </div>
+
+        <section class="selected-evidence-panel" id="selectedEvidencePanel" hidden>
+          <div class="selected-evidence-head">
+            <span class="panel-label"><span class="panel-num">05</span> Selected Evidence</span>
+          </div>
+          <div class="selected-evidence-view">
+            <img class="selected-evidence-img" id="selectedEvidenceImage" alt="" hidden />
+            <div class="selected-evidence-placeholder" id="selectedEvidencePlaceholder">Frame unavailable</div>
+            <span class="selected-view-corner tl"></span>
+            <span class="selected-view-corner tr"></span>
+            <span class="selected-view-corner bl"></span>
+            <span class="selected-view-corner br"></span>
+          </div>
+          <div class="selected-evidence-caption-card">
+            <span class="selected-caption-label">Caption</span>
+            <p class="selected-caption-text" id="selectedEvidenceCaption"></p>
+          </div>
+          <div class="selected-evidence-stats">
+            <span class="selected-metric"><b class="selected-metric-label">Timestamp</b><strong class="selected-metric-value" id="selectedEvidenceTimestamp">--</strong></span>
+            <span class="selected-metric"><b class="selected-metric-label">Frame</b><strong class="selected-metric-value" id="selectedEvidenceFrame">--</strong></span>
+            <span class="selected-metric"><b class="selected-metric-label">Similarity</b><strong class="selected-metric-value" id="selectedEvidenceSimilarity">--</strong></span>
+          </div>
+          <div class="selected-evidence-source">Selected from retrieved evidence</div>
+        </section>
+      </div>
+
+      <!-- CONSOLE PREVIEW -->
+      <div class="console console-anim" id="demo">
+        <span class="vf tl"></span><span class="vf tr"></span><span class="vf bl"></span><span class="vf br"></span>
+        <div class="console-bar">
+          <span class="console-dot" style="background:#fb7185"></span>
+          <span class="console-dot" style="background:#fbbf24"></span>
+          <span class="console-dot" style="background:#4ade80"></span>
+          <span class="console-title">scene_agent / no active video</span>
+          <span class="console-live idle"><span class="rec-dot"></span> IDLE</span>
+        </div>
+        <div class="console-body">
+          <!-- Upload -->
+          <div class="panel upload-panel" id="uploadPanel">
+            <div class="panel-head">
+              <span class="panel-label"><span class="panel-num">01</span> Upload and Prepare</span>
+              <span class="active-video" id="activeVideoPill">No active video</span>
+            </div>
+            <form class="upload-form" id="uploadForm">
+              <label class="dropzone" id="dropzone" for="videoFile">
+                <input id="videoFile" name="video_file" type="file" accept=".mp4,.avi,.mov,.mkv,video/*" />
+                <span class="drop-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>
+                </span>
+                <span class="drop-copy">
+                  <span class="drop-main" id="fileName">Video file</span>
+                  <span class="drop-sub">MP4, AVI, MOV, MKV</span>
+                </span>
+              </label>
+
+              <div class="prepare-grid">
+                <label class="control-field">
+                  <span>Video ID</span>
+                  <input id="videoId" type="text" placeholder="Optional" autocomplete="off" />
+                </label>
+                <label class="control-field compact">
+                  <span>Sample</span>
+                  <input id="sampleEvery" type="number" min="1" step="1" value="8" />
+                </label>
+                <label class="toggle-row">
+                  <input id="generateRules" type="checkbox" checked />
+                  <span>Auto rules</span>
+                </label>
+              </div>
+
+              <details class="rules-details">
+                <summary>Rule controls</summary>
+                <div class="rules-fields">
+                  <textarea id="normalRules" rows="3" placeholder="Normal rules, one per line"></textarea>
+                  <textarea id="abnormalRules" rows="3" placeholder="Abnormal rules, one per line"></textarea>
+                  <textarea id="ruleContext" rows="2" placeholder="Scene policy or anomaly context"></textarea>
+                </div>
+              </details>
+
+              <button class="btn btn-primary prepare-btn" id="prepareBtn" type="submit">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg>
+                Prepare Video
+              </button>
+            </form>
+
+            <div class="process-status" id="processStatus" hidden>
+              <div class="analysis-loader">
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="process-copy">
+                <div class="process-headline">
+                  <strong id="processTitle">Preparing video</strong>
+                  <span class="process-metrics">
+                    <span class="process-complete-badge" id="processCompleteBadge" hidden>Complete</span>
+                    <span class="process-percent" id="processPercent" hidden>0%</span>
+                  </span>
+                </div>
+                <span id="processDetail">Uploading file</span>
+              </div>
+              <div class="process-steps">
+                <span data-step="upload">Upload</span>
+                <span data-step="frames">Frames</span>
+                <span data-step="caption">Caption</span>
+                <span data-step="index">Index</span>
+                <span data-step="rules">Rules</span>
+              </div>
+            </div>
+
+            <div class="upload-result" id="uploadResult" hidden></div>
+          </div>
+
+          <!-- Agent answer -->
+          <div class="panel answer-panel">
+            <div class="panel-head">
+              <span class="panel-label"><span class="panel-num">04</span> Agent Answer</span>
+            </div>
+            <div class="answer-text">
+              Upload and prepare a video, then ask a question. The agent answer will appear here with classification, confidence, and frame-level evidence.
+            </div>
+            <div class="confidence-row">
+              <span class="conf-label">Confidence</span>
+              <span class="conf-bar"><span class="conf-fill"></span></span>
+              <span class="conf-val">IDLE</span>
+            </div>
+          </div>
+
+          <!-- Rules -->
+          <div class="panel rules-panel" id="rulesPanel">
+            <div class="panel-head">
+              <span class="panel-label"><span class="panel-num">02</span> Rules Applied to This Video</span>
+              <button class="add-rule rule-action" id="editRulesButton" type="button" disabled>Edit Rules</button>
+            </div>
+            <div class="rules-status" id="rulesStatus">Upload a video to load applied rules.</div>
+            <div class="rules-grid">
+              <div>
+                <div class="rule-col-head normal">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                  Normal
+                </div>
+                <div class="rule-list" id="normalRulesList">
+                  <div class="rule-item empty">No normal rules loaded.</div>
+                </div>
+                <div class="rule-footer">
+                  <button class="add-rule rule-action" id="addNormalRuleButton" type="button" disabled>+ Add rule</button>
+                  <span class="rule-count" id="normalRuleCount">0 rules</span>
+                </div>
+              </div>
+              <div>
+                <div class="rule-col-head abnormal">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/></svg>
+                  Abnormal
+                </div>
+                <div class="rule-list" id="abnormalRulesList">
+                  <div class="rule-item empty">No abnormal rules loaded.</div>
+                </div>
+                <div class="rule-footer">
+                  <button class="add-rule rule-action" id="addAbnormalRuleButton" type="button" disabled>+ Add rule</button>
+                  <span class="rule-count" id="abnormalRuleCount">0 rules</span>
+                </div>
+              </div>
+            </div>
+            <form class="rules-editor" id="rulesEditor" hidden>
+              <div class="rules-editor-grid">
+                <label>
+                  <span>Normal additions</span>
+                  <textarea id="normalRuleEdit" rows="3" placeholder="One normal rule per line"></textarea>
+                </label>
+                <label>
+                  <span>Abnormal additions</span>
+                  <textarea id="abnormalRuleEdit" rows="3" placeholder="One abnormal rule per line"></textarea>
+                </label>
+              </div>
+              <div class="rules-editor-actions">
+                <span class="rules-editor-message" id="rulesEditorMessage"></span>
+                <button class="rule-cancel" id="cancelRuleEditButton" type="button">Cancel</button>
+                <button class="rule-save" id="saveRuleEditButton" type="submit">Save Rules</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Ask -->
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-label"><span class="panel-num">03</span> Ask About the Active Video</span>
+            </div>
+            <div class="ask-box">
+              <input id="askInput" type="text" placeholder="Ask a question about what happened in the video..." />
+              <button class="ask-send" id="askSend" type="button">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+                Ask
+              </button>
+            </div>
+            <div class="ask-examples">
+              <button class="ask-chip" type="button">Was anyone walking on the grass?</button>
+              <button class="ask-chip" type="button">What happened around 7 seconds?</button>
+              <button class="ask-chip" type="button">Was there any fighting?</button>
+            </div>
+          </div>
+
+          <!-- Evidence -->
+          <div class="panel">
+            <div class="panel-head">
+              <span class="panel-label"><span class="panel-num">05</span> Retrieved Evidence Frames</span>
+              <span class="panel-meta" id="evidenceCount">0 frames</span>
+            </div>
+            <div class="evidence-grid" id="evidenceGrid"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FEATURES -->
+  <section class="block" id="features">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Capabilities</div>
+        <h2 class="section-title">Built for analysts who need answers they can defend.</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <span class="feature-idx">/01</span>
+          <div class="feature-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9"/></svg></div>
+          <h3>Frame-level Retrieval</h3>
+          <p>Find the exact moments that matter with frame-accurate evidence retrieval across the entire video.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-idx">/02</span>
+          <div class="feature-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></div>
+          <h3>Video-specific Rules</h3>
+          <p>Automatically induce normal and abnormal rules tailored to the content of each uploaded video.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-idx">/03</span>
+          <div class="feature-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h3>Structured Answers</h3>
+          <p>Clear, concise answers with rule checks and confidence scores you can trust and audit.</p>
+        </div>
+        <div class="feature-card reveal">
+          <span class="feature-idx">/04</span>
+          <div class="feature-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+          <h3>Evidence Gallery</h3>
+          <p>Review the most relevant frames side-by-side to validate every answer with visual proof.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="block how" id="workflow">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="section-eyebrow">Workflow</div>
+        <h2 class="section-title">From raw footage to defensible answer in four steps.</h2>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num"><span class="step-tag">1</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg></div>
+          <h4>Upload Video</h4>
+          <p>Drop in surveillance footage and the pipeline extracts key frames at a fixed sample rate.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num"><span class="step-tag">2</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></svg></div>
+          <h4>Generate Rules</h4>
+          <p>A VLM captions frames; an LLM induces normal and abnormal rules from the scene.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num"><span class="step-tag">3</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+          <h4>Ask Questions</h4>
+          <p>Query the video in natural language &mdash; including temporal questions spanning many frames.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num"><span class="step-tag">4</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+          <h4>Review Evidence</h4>
+          <p>Get answers with retrieved frames and confidence scores to verify every conclusion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="container">
+    <div class="cta-band reveal">
+      <span class="vf tl"></span><span class="vf tr"></span><span class="vf bl"></span><span class="vf br"></span>
+      <h2>See the agent reason over your footage.</h2>
+      <p>Upload a clip and watch it extract frames, build rules, and answer with frame-level evidence.</p>
+      <div class="hero-ctas">
+        <a href="#demo" class="btn btn-primary" data-focus-upload>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></svg>
+          Upload a Video
+        </a>
+        <a href="/docs" class="btn btn-ghost">API Docs</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="docs">
+    <div class="container footer-inner">
+      <div class="brand">
+        <div class="brand-mark" style="width:32px;height:32px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#06231f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4.2"/></svg>
+        </div>
+        <div class="brand-name" style="font-size:16px;">Video Scene Agent<span class="dot">.</span></div>
+      </div>
+      <div class="footer-meta">Multi-modal &middot; RAG &middot; LangGraph &middot; &copy; 2026</div>
+    </div>
+  </footer>
+</div>
+
+<script src="js/main.js?v=selected-evidence-card-2" defer></script>
+</body>
+</html>

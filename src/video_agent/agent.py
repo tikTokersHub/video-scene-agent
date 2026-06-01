@@ -109,18 +109,26 @@ def build_agent():
     return graph.compile()
     
 
-def ask(question:str) -> AgentAnswer:
+def ask(question: str, video_id: str | None = None) -> AgentAnswer:
     """
     Ask a question about the video and return a structured AgentAnswer.
     """
 
     agent = build_agent()
 
+    scoped_question = question
+    if video_id:
+        scoped_question = (
+            f"{question}\n\n"
+            f"Use video_id='{video_id}' in scene search, neighbouring-frame, "
+            "and rule-checking tool calls."
+        )
+
     result = agent.invoke(
         {
             "messages": [
                 SystemMessage(content=SYSTEM_PROMPT),
-                HumanMessage(content=question),
+                HumanMessage(content=scoped_question),
             ],
             "iterations": 0,
         }
@@ -144,18 +152,20 @@ Convert the following agent trace into a structured final answer.
 User question:
 {question}
 
+Video ID:
+{video_id or "not specified"}
+
 Agent trace:
 {trace_text}
 
 Requirements:
 - The answer must be grounded only in retrieved tool evidence.
 - If no strong evidence exists, use classification='uncertain'.
-- Include frame_idx, timestamp_sec, caption, and similarity_score where possible.
+- Include frame_idx, timestamp_sec, caption, similarity_score, frame_path, and video_id where possible.
 - confidence must be between 0 and 1.
 """
     )
 
     return final_answer
-
 
 

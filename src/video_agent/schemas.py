@@ -3,24 +3,23 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 class SceneEvidence(BaseModel):
-    frame_idx: int = Field(
-        ...,
-        description="Index of the video frame used as evidence.",
-    )
+    """A retrieved scene that supports an answer."""
+    frame_idx: int
 
-    timestamp_sec: float = Field(
-        ...,
-        description="Timestamp of the frame in seconds.",
-    )
+    timestamp_sec: float
 
-    caption: str = Field(
-        ...,
-        description="Caption or description of the retrieved frame.",
-    )
+    caption: str
 
-    similarity_score: float | None = Field(
+    similarity_score: float | None = None
+
+    frame_path: str | None = Field(
         default=None,
-        description="Similarity score from retrieval. Higher usually means more relevant.",
+        description="Local path to the retrieved frame image.",
+    )
+    
+    video_id: str | None = Field(
+        default=None,
+        description="Video identifier for the retrieved frame.",
     )
 
 

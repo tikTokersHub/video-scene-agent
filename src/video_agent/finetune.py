@@ -29,8 +29,10 @@ class FrameTextDataset(Dataset):
 
     def __getitem__(self, index):
         item = self.item[index]
-        image_path = Path(item["image"])
-        text = item["text"]
+        image_value = item.get("image") or item.get("frame")
+        text = item.get("text") or item.get("caption")
+
+        image_path = Path(image_value)
 
         if not image_path.exists():
             raise FileNotFoundError(f"Image not found: {image_path}")

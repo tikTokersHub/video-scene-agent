@@ -57,8 +57,13 @@ class SceneIngester:
         print(f"Found {len(rows)} caption rows.")
 
         for row in rows:
-            frame_path = Path(row["image"])
-            caption = row["text"]
+            frame_path = Path(row.get("image") or row.get("frame"))
+            caption = row.get("text") or row.get("caption")
+
+            if caption is None:
+                raise ValueError(
+                    "Caption row must contain either 'text' or 'caption'."
+                )
 
             match = re.search(r"frame_(\d+)\.jpg", frame_path.name)
             if match is not None:
@@ -90,6 +95,5 @@ class SceneIngester:
             )
 
         print(f"Ingested {len(rows)} scenes into Chroma collection: scenes")  
-
 
 

@@ -12,6 +12,8 @@ venv/
 .env
 
 # Data
+data/api_uploads/
+data/uploads/
 data/raw/
 data/frames/
 data/captions/
@@ -33,6 +35,7 @@ models/
 *.ckpt
 
 # MLflow
+.deepeval/
 mlruns/
 mlflow.db
 
@@ -42,3 +45,4 @@ reports/eval_predictions.json
 # OS/editor
 .DS_Store
 .vscode/
+notebooks/.ipynb_checkpoints/

@@ -1,0 +1,42 @@
+.git/
+.gitignore
+
+# Python caches and local environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.venv/
+venv/
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Generated app data
+data/api_uploads/
+data/uploads/
+data/raw/
+data/frames/
+data/captions/
+data/labels/
+chroma_db/
+models/
+
+# Experiments and reports
+.deepeval/
+mlruns/
+mlflow.db
+reports/
+notebooks/.ipynb_checkpoints/
+
+# OS/editor noise
+.DS_Store
+.vscode/
+*.log

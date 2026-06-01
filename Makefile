@@ -6,3 +6,7 @@ test:
 
 eval:
 	PYTHONPATH=src python -m video_agent.evaluate
+
+demo:
+	PYTHONPATH=src python -m video_agent.ui
+

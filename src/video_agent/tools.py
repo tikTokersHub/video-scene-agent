@@ -5,6 +5,11 @@ from sentence_transformers import SentenceTransformer
 
 from video_agent.ingest import SceneIngester
 
+from pathlib import Path
+import base64
+import mimetypes
+
+
 
 CHROMA_PATH = "./chroma_db"
 
@@ -404,7 +409,7 @@ def check_against_rules(
     }
 
 @tool
-def compare_two_timestamps(timestamp_a: float, timestamp_b: float) -> dict:
+def compare_two_timestamps(timestamp_a: float, timestamp_b: float, video_id: str | None = None,) -> dict:
     """
     Compare what happened around two timestamps.
 
@@ -419,6 +424,7 @@ def compare_two_timestamps(timestamp_a: float, timestamp_b: float) -> dict:
             "start_sec": timestamp_a - window,
             "end_sec": timestamp_a + window,
             "limit": 5,
+            "video_id": video_id,
         }
     )
 
@@ -427,6 +433,7 @@ def compare_two_timestamps(timestamp_a: float, timestamp_b: float) -> dict:
             "start_sec": timestamp_b - window,
             "end_sec": timestamp_b + window,
             "limit": 5,
+            "video_id": video_id,
         }
     )
 
@@ -434,6 +441,7 @@ def compare_two_timestamps(timestamp_a: float, timestamp_b: float) -> dict:
     captions_b = [scene["caption"] for scene in scenes_b]
 
     return {
+        "video_id": video_id,
         "timestamp_a": timestamp_a,
         "timestamp_b": timestamp_b,
         "scenes_near_a": scenes_a,
@@ -442,4 +450,97 @@ def compare_two_timestamps(timestamp_a: float, timestamp_b: float) -> dict:
             "captions_a": captions_a,
             "captions_b": captions_b,
         },
+    }
+
+
+@tool
+def compare_time_interval(
+    start_sec: float,
+    end_sec: float,
+    video_id: str | None = None,
+    sample_every_sec: float = 5.0,
+    window_sec: float = 1.0,
+    max_samples: int = 12,
+) -> dict:
+    """
+    Inspect an interval by sampling multiple timestamps between start_sec and end_sec.
+
+    Use this for temporal questions where checking only two timestamps is not enough.
+
+    Useful for questions like:
+    - "Was the object left unattended for too long?"
+    - "Did the same activity continue for a while?"
+    - "Was someone standing there the whole time?"
+    - "Did the situation remain the same?"
+    - "Did anything change between the start and end?"
+
+    IMPORTANT FOR THE AGENT:
+    - If an active video_id exists, you MUST pass it to this tool.
+    - Use this tool for duration, persistence and continuity questions.
+    - Do not claim something happened throughout the interval unless the sampled scenes support it.
+    """
+    if end_sec < start_sec:
+        raise ValueError("end_sec must be greater than or equal to start_sec.")
+
+    if sample_every_sec <= 0:
+        raise ValueError("sample_every_sec must be greater than 0.")
+
+    if window_sec < 0:
+        raise ValueError("window_sec must be greater than or equal to 0.")
+
+    duration = end_sec - start_sec
+
+    if duration == 0:
+        sample_times = [start_sec]
+    else:
+        sample_times = []
+        current = start_sec
+
+        while current <= end_sec:
+            sample_times.append(round(current, 3))
+            current += sample_every_sec
+
+        if sample_times[-1] != end_sec:
+            sample_times.append(end_sec)
+
+    # Keep the tool result compact so the agent does not receive too much context.
+    if len(sample_times) > max_samples:
+        if max_samples < 2:
+            sample_times = [start_sec]
+        else:
+            step = (len(sample_times) - 1) / (max_samples - 1)
+            sampled_indices = [round(i * step) for i in range(max_samples)]
+            sample_times = [sample_times[i] for i in sampled_indices]
+
+    sampled_scenes = []
+
+    for timestamp in sample_times:
+        scenes = search_scenes_by_time_range.invoke(
+            {
+                "start_sec": timestamp - window_sec,
+                "end_sec": timestamp + window_sec,
+                "limit": 5,
+                "video_id": video_id,
+            }
+        )
+
+        sampled_scenes.append(
+            {
+                "timestamp_sec": timestamp,
+                "window_start_sec": timestamp - window_sec,
+                "window_end_sec": timestamp + window_sec,
+                "scenes": scenes,
+                "captions": [scene["caption"] for scene in scenes],
+            }
+        )
+
+    return {
+        "video_id": video_id,
+        "start_sec": start_sec,
+        "end_sec": end_sec,
+        "duration_sec": duration,
+        "sample_every_sec": sample_every_sec,
+        "window_sec": window_sec,
+        "sample_times": sample_times,
+        "sampled_scenes": sampled_scenes,
     }

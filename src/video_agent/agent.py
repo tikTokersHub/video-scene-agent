@@ -15,6 +15,7 @@ from video_agent.tools import (
     get_neighbouring_frames,
     search_scenes_by_text,
     search_scenes_by_time_range,
+    compare_time_interval
 )
 
 
@@ -26,6 +27,7 @@ TOOLS = [
     get_neighbouring_frames,
     check_against_rules,
     compare_two_timestamps,
+    compare_time_interval
 ]
 
 SYSTEM_PROMPT = """
@@ -40,7 +42,8 @@ Rules:
 4. Use search_scenes_by_time_range for questions about a specific time window.
 5. Use get_neighbouring_frames when checking temporal continuity.
 6. Use compare_two_timestamps when comparing two different moments.
-7. Never claim something happened unless the tools returned supporting evidence.
+7. Use compare_time_interval when the question depends on duration, persistence, continuity across a period, or whether something was left unattended for long enough.
+8. never claim something happened unless the tools returned supporting evidence.
 8. Always mention frame indices and timestamps when evidence is available.
 9. If evidence is weak or missing, say you are uncertain.
 
@@ -48,6 +51,8 @@ Important:
 - If the retrieved evidence mentions riding a bike, riding a bicycle, running, fighting, lying on the ground, skateboarding, or vandalising, you must call check_against_rules before giving the final answer.
 - The final classification must be based on retrieved evidence plus rule checking.
 """
+
+
 
 class AgentState(TypedDict):
     messages: Annotated[list, add_messages]
@@ -66,7 +71,7 @@ def build_agent():
     """
 
     llm = ChatOpenAI(
-        model='gpt-4o-mini',
+        model="gpt-4o-mini",
         temperature=0,
     ).bind_tools(TOOLS)
 
@@ -161,7 +166,7 @@ Agent trace:
 Requirements:
 - The answer must be grounded only in retrieved tool evidence.
 - If no strong evidence exists, use classification='uncertain'.
-- Include frame_idx, timestamp_sec, caption, similarity_score, frame_path, and video_id where possible.
+- Include frame_idx, timestamp_sec, caption, similarity_score, and video_id where possible.
 - confidence must be between 0 and 1.
 """
     )

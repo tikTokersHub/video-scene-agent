@@ -19,6 +19,8 @@ the video for question answering.
   <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent demo workflow" width="900">
 </p>
 
+Watch the full walkthrough: [video-scene-agent-demo.mp4](static/assets/videos/video-scene-agent-demo.mp4)
+
 ## What It Does
 
 Ask questions such as:

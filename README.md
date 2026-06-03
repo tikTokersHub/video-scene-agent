@@ -16,13 +16,13 @@ sampling interval, and enabling video-specific rule generation before the agent
 prepares the video for question answering.
 
 <p align="center">
-  <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent upload, rule setup, and question answering workflow" width="900">
+  <img src="static/assets/images/video-scene-agent-overview.gif" alt="Video Scene Agent interface overview" width="900">
 </p>
 
 The interface overview shows the landing page and static frontend layout.
 
 <p align="center">
-  <img src="static/assets/images/video-scene-agent-overview.gif" alt="Video Scene Agent interface overview" width="900">
+  <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent upload, rule setup, and question answering workflow" width="900">
 </p>
 
 ## What It Does

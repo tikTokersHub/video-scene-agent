@@ -19,7 +19,7 @@ prepares the video for question answering.
   <img src="static/assets/images/video-scene-agent-overview.gif" alt="Video Scene Agent interface overview" width="900">
 </p>
 
-The interface overview shows the landing page and static frontend layout.
+The prepared-video workflow shows how users can add or delete video-specific rules, ask follow-up questions, and inspect timestamped evidence frames with captions, confidence, and reasoning.
 
 <p align="center">
   <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent upload, rule setup, and question answering workflow" width="900">

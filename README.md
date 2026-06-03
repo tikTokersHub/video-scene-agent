@@ -11,6 +11,10 @@ The older Gradio demo is still available as a standalone app or mounted under
 
 ## Demo
 
+The demo starts by uploading a surveillance video, setting the frame sampling
+interval, and enabling video-specific rule generation before the agent prepares
+the video for question answering.
+
 <p align="center">
   <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent demo workflow" width="900">
 </p>

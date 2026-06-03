@@ -9,6 +9,12 @@ The main FastAPI app serves an interactive static frontend at `http://localhost:
 The older Gradio demo is still available as a standalone app or mounted under
 `/app` when the API server is running.
 
+## Demo
+
+<p align="center">
+  <img src="static/assets/images/video-scene-agent-demo.gif" alt="Video Scene Agent demo workflow" width="900">
+</p>
+
 ## What It Does
 
 Ask questions such as:

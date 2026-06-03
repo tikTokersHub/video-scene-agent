@@ -609,9 +609,11 @@ async function prepareVideo(event) {
   }
 
   const formData = new FormData();
+  const sampleValue = sampleEvery.value.replace(/\D/g, '') || '8';
+  sampleEvery.value = sampleValue;
   formData.append('video_file', file);
   formData.append('video_id', videoIdInput.value.trim());
-  formData.append('sample_every_n', sampleEvery.value || '8');
+  formData.append('sample_every_n', sampleValue);
   formData.append('generate_video_rules', generateRules.checked ? 'true' : 'false');
   formData.append('normal_rules', normalRules.value.trim());
   formData.append('abnormal_rules', abnormalRules.value.trim());
@@ -707,6 +709,11 @@ async function submitQuestion() {
 }
 
 if (uploadForm) uploadForm.addEventListener('submit', prepareVideo);
+if (sampleEvery) {
+  sampleEvery.addEventListener('input', () => {
+    sampleEvery.value = sampleEvery.value.replace(/\D/g, '');
+  });
+}
 if (grid) grid.addEventListener('click', handleEvidenceGridClick);
 if (editRulesButton) editRulesButton.addEventListener('click', () => openRulesEditor('normal'));
 if (addNormalRuleButton) addNormalRuleButton.addEventListener('click', () => openRulesEditor('normal'));

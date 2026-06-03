@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="css/styles.css?v=selected-evidence-card-2" />
+<link rel="stylesheet" href="css/styles.css?v=sample-input-1" />
 </head>
 <body>
 <div class="atmosphere">
@@ -129,7 +129,7 @@
                 </label>
                 <label class="control-field compact">
                   <span>Sample</span>
-                  <input id="sampleEvery" type="number" min="1" step="1" value="8" />
+                  <input id="sampleEvery" type="text" inputmode="numeric" pattern="[0-9]*" value="8" />
                 </label>
                 <label class="toggle-row">
                   <input id="generateRules" type="checkbox" checked />
@@ -378,6 +378,6 @@
   </footer>
 </div>
 
-<script src="js/main.js?v=selected-evidence-card-2" defer></script>
+<script src="js/main.js?v=sample-input-1" defer></script>
 </body>
 </html>

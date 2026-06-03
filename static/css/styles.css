@@ -800,6 +800,15 @@
     padding: 9px 10px;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
+  .control-field input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+  .control-field input[type="number"]::-webkit-inner-spin-button,
+  .control-field input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
   .control-field input:focus,
   .rules-fields textarea:focus,
   .ask-box:focus-within {

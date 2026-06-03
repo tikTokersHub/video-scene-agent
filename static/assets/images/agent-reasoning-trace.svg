@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1350" height="326" viewBox="0 0 1350 326" role="img" aria-labelledby="title desc">
+  <title id="title">Agent reasoning trace terminal demo</title>
+  <desc id="desc">Terminal output showing a LangGraph agent calling scene search, rule checking, and neighbouring-frame tools before producing an answer.</desc>
+  <rect width="1350" height="326" fill="#0f1114"/>
+  <rect x="0.5" y="0.5" width="1349" height="325" fill="none" stroke="#252b33"/>
+  <g font-family="Consolas, Monaco, 'Courier New', monospace" font-size="12" text-rendering="geometricPrecision">
+    <text x="8" y="16">
+      <tspan fill="#3bd6ff">(video_agent)</tspan>
+      <tspan fill="#55f08b"> harvey@DESKTOP-VUNUPHh</tspan>
+      <tspan fill="#e8edf2">:</tspan>
+      <tspan fill="#3a8cff">~/dev/video_agent</tspan>
+      <tspan fill="#e8edf2">$ PYTHONPATH=src python -m scripts.trace_demo</tspan>
+    </text>
+    <text x="13" y="34" fill="#e8edf2">Loading SigLIP 2 on cuda...</text>
+
+    <text x="14" y="86" fill="#e8edf2">============================================================</text>
+    <text x="14" y="104" fill="#e8edf2">AGENT REASONING TRACE</text>
+    <text x="14" y="122" fill="#e8edf2">============================================================</text>
+
+    <text x="28" y="156" fill="#e8edf2">|-- [THINK] call search_scenes_by_text({'query': 'bicycle', 'video_id': 'shanghai_01_0014'})</text>
+    <text x="28" y="174" fill="#e8edf2">|-- [OBSERVE] search_scenes_by_text -&gt; [{"video_id": "shanghai_01_0014", "frame_idx": 110, "timestamp_sec": 4.583333333333333, "frame_path": "data/ra...</text>
+    <text x="28" y="192" fill="#e8edf2">|-- [THINK] call check_against_rules({'scene_description': 'one is riding a bike', 'video_id': 'shanghai_01_0014'})</text>
+    <text x="28" y="210" fill="#e8edf2">|-- [OBSERVE] check_against_rules -&gt; {"scene_description": "one is riding a bike", "video_id_used": "shanghai_01_0014", "rule_scope": "all_rules", ...</text>
+    <text x="28" y="228" fill="#e8edf2">|-- [THINK] call get_neighbouring_frames({'frame_idx': 170, 'window': 5, 'video_id': 'shanghai_01_0014'})</text>
+    <text x="28" y="246" fill="#e8edf2">|-- [OBSERVE] get_neighbouring_frames -&gt; [{"video_id": "shanghai_01_0014", "frame_idx": 170, "timestamp_sec": 7.083333333333333, "frame_path": "data/ra...</text>
+    <text x="14" y="264" fill="#e8edf2">[MODEL] The bicycle anomaly occurred at **7.08 seconds** (frame index 170) in the video, where one person was riding a bike while three people were walking, and two were sitting on a bench.</text>
+    <text x="14" y="300" fill="#e8edf2">The activity of riding a bicycle in a pedestrian area was classified as **anomalous** based on the rules.</text>
+
+    <text x="8" y="320">
+      <tspan fill="#3bd6ff">(video_agent)</tspan>
+      <tspan fill="#55f08b"> harvey@DESKTOP-VUNUPHh</tspan>
+      <tspan fill="#e8edf2">:</tspan>
+      <tspan fill="#3a8cff">~/dev/video_agent</tspan>
+      <tspan fill="#e8edf2">$</tspan>
+    </text>
+  </g>
+</svg>

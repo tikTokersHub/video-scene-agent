@@ -77,6 +77,15 @@ flowchart LR
 | LLM | `gpt-4o-mini` via `langchain-openai` |
 | Evaluation | Pytest golden checks, DeepEval answer relevancy and faithfulness checks |
 
+## Agent Reasoning Trace
+
+For debugging and demos, `scripts.trace_demo` prints the agent loop as readable
+tool calls and observations. This makes it easy to show how a question turns
+into scene retrieval, rule checking, neighbouring-frame lookup, and a grounded
+answer.
+
+![Agent reasoning trace](static/assets/images/agent-reasoning-trace.svg)
+
 ## Quick Start
 
 ### 1. Install
